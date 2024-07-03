@@ -12,11 +12,15 @@ for fox_info_dictionary in animals_data:
     name = fox_info_dictionary["name"]
     diet = fox_info_dictionary["characteristics"]["diet"]
     first_location = fox_info_dictionary["locations"][0]
-    output += f"\n\nName: {name}\nDiet: {diet}\nLocation: {first_location}"
+    output += "<li class ='card item'>"
+    output += f"\n\nName: {name}<br/>\n"
+    output += f"Diet: {diet}<br/>\n"
+    output += f"Location: {first_location}<br/>\n"
     if "type" in fox_info_dictionary["characteristics"]:
         fox_type = fox_info_dictionary["characteristics"]["type"]
-        output += f"Type: {fox_type}"
-#print(output)
+        output += f"Type: {fox_type}<br/>"
+    output += "<li/>"
+    output += "<br/>"
 
 with open("animals_template.html", "r") as data:
     animals_html = data.read()

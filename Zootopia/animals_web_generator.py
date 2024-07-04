@@ -7,20 +7,21 @@ def load_data(file_path):
 
 animals_data = load_data("animals_data.json")
 
-output = ""
+output = ''
 for fox_info_dictionary in animals_data:
-    name = fox_info_dictionary["name"]
+    name = fox_info_dictionary['name']
     diet = fox_info_dictionary["characteristics"]["diet"]
     first_location = fox_info_dictionary["locations"][0]
-    output += "<li class ='card item'>"
-    output += f"\n\nName: {name}<br/>\n"
-    output += f"Diet: {diet}<br/>\n"
-    output += f"Location: {first_location}<br/>\n"
+    output += '\n<li class ="cards__item">\n'
+    output += f'<div class="card__title"> {name}</div>\n'
+    output += f'<p class="card__text">\n'
+    output += f'<strong>Diet:</strong> {diet}<br/>\n'
+    output += f'<strong>Location:</strong> {first_location}<br/>\n'
     if "type" in fox_info_dictionary["characteristics"]:
         fox_type = fox_info_dictionary["characteristics"]["type"]
-        output += f"Type: {fox_type}<br/>"
-    output += "<li/>"
-    output += "<br/>"
+        output += f'<strong>Type:</strong> {fox_type}<br/>\n'
+    output += '</p>\n'
+    output += '</li>\n'
 
 with open("animals_template.html", "r") as data:
     animals_html = data.read()

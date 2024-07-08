@@ -54,42 +54,52 @@ def get_skin_type_list(animal_data):
             pass
     return skin_type_list
 
-def main():
-    animal = input("Type an animal: ")
-    text_request = requesting_from_API(animal)
-    writing_json_file(text_request)
-
-    animals_data = load_data("animals_data.json")
-    print("Skin types: ")
-
-    skin_type_list = get_skin_type_list(animals_data)
-
-    for skin_type in skin_type_list:
-        print("-", skin_type)
-    bad_input = True
-    while bad_input:
-        skin_type_selected = input("Type one of the skin types from the list of top: ")
-        if skin_type_selected in skin_type_list:
-            bad_input = False
-        else:
-            print("Try again")
-
-    output = ''
-    for animal_obj in animals_data:
-        try:
-            if skin_type_selected == animal_obj['characteristics']['skin_type']:
-                output += serialize_animal(animal_obj)
-            else:
-                pass
-        except KeyError as e:
-            pass
-
+def open_and_writing_html(html_data):
     with open("animals_template.html", "r") as data:
         animals_html = data.read()
-        animals_html = animals_html.replace("__REPLACE_ANIMALS_INFO__", output)
+        animals_html = animals_html.replace("__REPLACE_ANIMALS_INFO__", html_data)
 
     with open("animals.html", "w") as new_html:
         new_html.write(animals_html)
+
+
+
+def main():
+    animal = input("Type an animal: ")
+    text_request = requesting_from_API(animal)
+
+    writing_json_file(text_request)
+
+    animals_data = load_data("animals_data.json")
+
+    if len(text_request) < 3:
+        open_and_writing_html(f"<h2> The animal {animal} doesn't exist. </h2>")
+
+    else:
+        print("Skin types: ")
+        skin_type_list = get_skin_type_list(animals_data)
+
+        for skin_type in skin_type_list:
+            print("-", skin_type)
+        bad_input = True
+        while bad_input:
+            skin_type_selected = input("Type one of the skin types from the list of top: ")
+            if skin_type_selected in skin_type_list:
+                bad_input = False
+            else:
+                print("Try again")
+
+        output = ''
+        for animal_obj in animals_data:
+            try:
+                if skin_type_selected == animal_obj['characteristics']['skin_type']:
+                    output += serialize_animal(animal_obj)
+                else:
+                    pass
+            except KeyError as e:
+                pass
+            open_and_writing_html(output)
+
 
     print(f"Website was successfully generated to the file animals.html")
 

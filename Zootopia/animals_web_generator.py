@@ -55,7 +55,8 @@ def get_skin_type_list(animal_data):
     return skin_type_list
 
 def main():
-    text_request = requesting_from_API("dog")
+    animal = input("Type an animal: ")
+    text_request = requesting_from_API(animal)
     writing_json_file(text_request)
 
     animals_data = load_data("animals_data.json")
@@ -89,6 +90,8 @@ def main():
 
     with open("animals.html", "w") as new_html:
         new_html.write(animals_html)
+
+    print(f"Website was successfully generated to the file animals.html")
 
 if __name__ == "__main__":
     main()

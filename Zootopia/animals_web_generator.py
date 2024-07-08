@@ -1,21 +1,8 @@
 import json
-import requests
-
-
-
-def requesting_from_API(animal_name):
-    API_key = "VtRld3UBsabpn8hSPFL+LA==0LXUcUl6h8bwBRUI"
-    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(animal_name)
-    response = requests.get(api_url, headers={'X-Api-Key': API_key})
-    if response.status_code == requests.codes.ok:
-        return (response.text)
-    else:
-        return "Error:", response.status_code, response.text
-
+import data_fetcher
 def writing_json_file(text_response):
     with open("animals_data.json", "w") as new_file:
         new_file.write(text_response)
-
 
 def load_data(file_path):
     """"" loads json file"""
@@ -65,15 +52,15 @@ def open_and_writing_html(html_data):
 
 
 def main():
-    animal = input("Type an animal: ")
-    text_request = requesting_from_API(animal)
+    animal_name = input("Type an animal: ")
+    data = data_fetcher.fetch_data(animal_name)
 
-    writing_json_file(text_request)
+    writing_json_file(data)
 
     animals_data = load_data("animals_data.json")
 
-    if len(text_request) < 3:
-        open_and_writing_html(f"<h2> The animal {animal} doesn't exist. </h2>")
+    if len(data) < 3:
+        open_and_writing_html(f"<h2> The animal {animal_name} doesn't exist. </h2>")
 
     else:
         print("Skin types: ")
